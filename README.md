@@ -25,15 +25,14 @@ run:
     pkg: { ref: github.com/opspec-pkgs/azure.eventhub.consumergroup.create#VERSION }
     inputs: 
       subscriptionId:
-      azureUsername:
-      azurePassword:
+      loginId:
+      loginSecret:
+      loginTenantId:
       resourceGroup:
-      namespaceName:
-      location:
-      sku:
-      messagingUnits:
-      eventHubName:
-      messageRetentionInDays:
-      partitionCount:
-      consumerGroupName:
+      namespace:
+      eventHub:
+      name:
+      # begin optional args
+      loginType:
+      # end optional args
 ```

@@ -5,73 +5,52 @@ inputs:
     string:
       constraints: { minLength: 1 }
       description: id of azure subscription
-  azureUsername:
-    string:
-      constraints: { format: email }
-      description: email address of azure account
-  azurePassword:
+  loginId:
     string:
       constraints: { minLength: 1 }
-      description: password of azure account
+      description: id of user, service principal, or app to login with
+  loginSecret:
+    string:
+      constraints: { minLength: 1 }
+      description: secret of user, service principal, or app to login with
       isSecret: true
+  loginTenantId:
+    string:
+      constraints: { minLength: 1 }
+      description: tenant id of user, service principal, or app to login with
   resourceGroup:
     string:
       constraints: { minLength: 1 }
-      description: name of azure resource group
-  namespaceName:
+      description: resource group for the provisioned consumer group
+  namespace:
     string:
       constraints: { minLength: 1 }
-      description: name of the event hub namespace
-  location:
+      description: namespace for the provisioned consumer group
+  eventHub:
     string:
       constraints: { minLength: 1 }
-      description: location of provisioned event hub namespace
-      default: westus
-  sku:
-    string:
-      constraints: { enum: [ Basic, Standard ] }
-      description: The messaging tier for event hub namespace
-      default: Standard
-  messagingUnits:
-    number:
-      constraints: { minimum: 1, maximum: 20 }
-      description: the throughput units, 1-20
-      default: 1
-  eventHubName:
+      description: event hub for the provisioned consumer group
+  name:
     string:
       constraints: { minLength: 1 }
-      description: name of the event hub
-  messageRetentionInDays:
-    number:
-      constraints: { minimum: 1, maximum: 7 }
-      description: how long to retain the data in event hub, 1-7
-      default: 7
-  partitionCount:
-    number:
-      constraints: { minimum: 2, maximum: 32 }
-      description: number of partitions chosen, 2-32
-      default: 2
-  consumerGroupName:
+      description: name for the provisioned consumer group
+  loginType:
     string:
-      constraints: { minLength: 1 }
-      description: name of the consumer group
-  template:
-    file:
-      default: /template.json
+      constraints: { enum: [user, sp]}
+      description: type of login; 'user' (default) or 'sp' for service principal
+      default: user
 run:
-  serial:
-    - container:
-        image: { ref: 'alpine' }
-        cmd: [ /cmd.sh ]
-        files: { /cmd.sh, /parametersTemplate.json, /parameters.json: parameters }
-        envVars: { namespaceName, location, sku, messagingUnits, eventHubName, messageRetentionInDays, partitionCount, consumerGroupName }
-    - op:
-        pkg: { ref: github.com/opspec-pkgs/azure.group.deployment.create#0.0.2 }
-        inputs: 
-          subscriptionId:
-          username: azureUsername
-          password: azurePassword
-          resourceGroup:
-          name: consumerGroupName
-          parameters:
-          template:
+  container:
+    image: { ref: 'opspecpkgs/azure.eventhub.consumergroup.create:1.0.0' }
+    cmd: [node, /index.js]
+    files: { /index.js }
+    envVars:
+      subscriptionId:
+      loginId:
+      loginSecret:
+      loginTenantId:
+      resourceGroup:
+      namespace:
+      eventHub:
+      name:
+      loginType:
