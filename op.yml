@@ -39,6 +39,7 @@ inputs:
       constraints: { enum: [user, sp]}
       description: type of login; 'user' (default) or 'sp' for service principal
       default: user
+version: 1.0.0
 run:
   container:
     image: { ref: 'opspecpkgs/azure.eventhub.consumergroup.create:1.0.0' }
