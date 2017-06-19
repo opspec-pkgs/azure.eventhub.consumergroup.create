@@ -35,6 +35,7 @@ const createOrUpdate = async (credentials) => {
         process.env.namespace,
         process.env.eventHub,
         process.env.name,
+        {}
     );
 
     console.log('creating/updating consumer group successful');
