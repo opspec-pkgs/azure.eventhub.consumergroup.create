@@ -20,21 +20,20 @@ opctl run github.com/opspec-pkgs/azure.eventhub.consumergroup.create#VERSION
 ## compose
 
 ```yaml
-run:
-  op:
-    pkg: { ref: github.com/opspec-pkgs/azure.eventhub.consumergroup.create#VERSION }
-    inputs: 
-      subscriptionId:
-      loginId:
-      loginSecret:
-      loginTenantId:
-      resourceGroup:
-      namespace:
-      eventHub:
-      name:
-      # begin optional args
-      loginType:
-      # end optional args
+op:
+  pkg: { ref: github.com/opspec-pkgs/azure.eventhub.consumergroup.create#VERSION }
+  inputs: 
+    subscriptionId:
+    loginId:
+    loginSecret:
+    loginTenantId:
+    resourceGroup:
+    namespace:
+    eventHub:
+    name:
+    # begin optional args
+    loginType:
+    # end optional args
 ```
 
 # Support
